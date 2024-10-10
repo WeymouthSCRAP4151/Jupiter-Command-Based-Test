@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClawConstants;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -25,19 +24,14 @@ public class ClawSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command openClawCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          m_clawSolenoid.set(Value.kForward);
-        });
+  public void openClaw() {
+    m_clawSolenoid.set(Value.kForward);
   }
-  public Command closeClawCommand() {
-    return runOnce(
-        () -> {
-            m_clawSolenoid.set(Value.kReverse);
-        });
+  public void closeClaw() {
+    m_clawSolenoid.set(Value.kReverse);
+  }
+  public void toggleClaw() {
+    m_clawSolenoid.toggle();
   }
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).

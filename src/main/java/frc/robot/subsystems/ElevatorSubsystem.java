@@ -4,31 +4,23 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.motorcontrol.PWMVenom;
 import frc.robot.Constants.ElevatorConstants;
 
 
 public class ElevatorSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  private final PWMSparkMax m_pulleyMotor = new PWMSparkMax(ElevatorConstants.m_pulleyMotorPort);
+  private final PWMVenom m_pulleyMotor = new PWMVenom(ElevatorConstants.m_pulleyMotorPort);
   public ElevatorSubsystem() {
     
   }
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command raiseElevatorCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          m_pulleyMotor.set(1);
-        });
+  public void raiseElevator(double pulleySpeed) {
+    m_pulleyMotor.set(pulleySpeed);
+  }
+  public void lowerElevator(double pulleySpeed) {
+    m_pulleyMotor.set(-pulleySpeed);
   }
 
   /**

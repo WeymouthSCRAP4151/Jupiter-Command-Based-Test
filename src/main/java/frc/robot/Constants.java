@@ -28,6 +28,8 @@ public final class Constants {
   }
   public static final class ElevatorConstants {
     public static final int m_pulleyMotorPort = 0;
+    public static final double defaultPulleySpeed = 1;
+    public static final double halfPulleySpeed = 0.5;
   }
   public static final class ClawConstants {
     public static final int kSolenoidForwardPort = 6;

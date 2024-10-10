@@ -5,9 +5,15 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.CloseClawCommand;
+import frc.robot.commands.Move;
+import frc.robot.commands.OpenClawCommand;
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.ToggleClawCommand;
+import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,12 +30,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
   CommandJoystick m_driverJoystick1 = new CommandJoystick(OperatorConstants.kDriverControllerPort);
   CommandJoystick m_driverJoystick2 = new CommandJoystick(OperatorConstants.kDriverControllerPort2);
   DriveTrain drivetrain = new DriveTrain();
+  ClawSubsystem clawsubsystem = new ClawSubsystem();
   TankDrive tankdrive = new TankDrive(drivetrain, m_driverJoystick1, m_driverJoystick2);
+  CloseClawCommand closeClawCommand = new CloseClawCommand(clawsubsystem);
+  OpenClawCommand openClawCommand = new OpenClawCommand(clawsubsystem);
+  Trigger halfSpeedTrigger = m_driverJoystick1.button(1);
+  Trigger moveTrigger = m_driverJoystick1.button(4);
+  Trigger clawTrigger = m_driverJoystick2.button(1);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -48,8 +59,9 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    moveTrigger.whileTrue(new Move(0.5, 0.5));
+    clawTrigger.onTrue(new ToggleClawCommand(clawsubsystem));
+    halfSpeedTrigger.whileTrue(new StartEndCommand(tankdrive::setHalfSpeed, tankdrive::setDefaultSpeed, new Subsystem[0]));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.

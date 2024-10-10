@@ -18,10 +18,10 @@ public class DriveTrain extends SubsystemBase {
   }
   
   public void setLeftWheels(double speed) {
-    m_leftWheels.set(speed);
+    m_leftWheels.set(-speed);
   }
   public void setRightWheels(double speed) {
-    m_rightWheels.set(speed);
+    m_rightWheels.set(-speed);
   }
 
   /**

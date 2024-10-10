@@ -5,14 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import frc.robot.subsystems.DriveTrain;
 
 public class TankDrive extends Command {
   /** Creates a new TankDrive. */
   DriveTrain drivetrain;
   CommandJoystick m_driverJoystick1;
   CommandJoystick m_driverJoystick2;
+  double drivespeed = 1;
   public TankDrive(DriveTrain drivetrain, CommandJoystick m_driverJoystick1, CommandJoystick m_driverJoystick2) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;
@@ -24,12 +25,17 @@ public class TankDrive extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
-
   // Called every time the scheduler runs while the command is scheduled.
+  public void setHalfSpeed () {
+    drivespeed = 0.5;
+  }
+  public void setDefaultSpeed () {
+    drivespeed = 1;
+  }
   @Override
   public void execute() {
-    drivetrain.setLeftWheels(m_driverJoystick1.getY());
-    drivetrain.setRightWheels(m_driverJoystick2.getY());
+    drivetrain.setLeftWheels(drivespeed * m_driverJoystick1.getY());
+    drivetrain.setRightWheels(drivespeed * m_driverJoystick2.getY());
   }
 
   // Called once the command ends or is interrupted.
